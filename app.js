@@ -13,7 +13,7 @@ fs.access(path, fs.F_OK, (err) => {
   if (err) {
     return
   }
-  fs.readFile(path, 'utf8', function(err, contents) {
+  fs.readFile(path, 'utf8', function(error, contents) {
     fileContent = contents;
   });
 })
