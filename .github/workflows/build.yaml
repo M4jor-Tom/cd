@@ -17,7 +17,8 @@ jobs:
             password: ${{ secrets.DOCKERHUB_TOKEN }}
             registry: docker.io
             repository: mjrtom/cd
-            tag_with_sha: true
+            tags: latest
+            #tag_with_sha: true
     sonarcloud:
         runs-on: ubuntu-latest
         steps:
@@ -45,3 +46,16 @@ jobs:
           with:
             name: reports
             path: reports
+    trivy:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v2
+          - name: Run Trivy vulnerability scanner
+            uses: aquasecurity/trivy-action@master
+            with:
+              image-ref: 'docker.io/mjrtom/cd:latest'
+              format: 'table'
+              exit-code: '1'
+              ignore-unfixed: true
+              vuln-type: 'os,library'
+              severity: 'CRITICAL,HIGH'
