@@ -1,0 +1,20 @@
+name: Build App
+
+on:
+    push:
+        branches:
+        - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+        - uses: actions/checkout@v2
+        - name: build-push
+          uses: docker/build-push-action@v1
+          with:
+            username: ${{ secrets.DOCKERHUB_UID }}
+            password: ${{ secrets.DOCKERHUB_TOKEN }}
+            registry: docker.io
+            repository: mjrtom/cd
+            tag_with_sha: true
